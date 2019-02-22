@@ -7,7 +7,7 @@
 
 
 This is the repository for business rules as of implemented by merchant sites for use in e-commerce platform plugins.
-The objective is to be a central repository for services and to communicate with the EBANX API (also known as "Pay").
+The objective is to be a central repository for services and to communicate with the EBANX Local API (also known as "Pay Local").
 
 ## Getting Started
 
@@ -32,19 +32,3 @@ If you want more information you can check the [Wiki](https://github.com/ebanx/b
 ## Contributing
 
 Check the [Wiki](https://github.com/ebanx/benjamin/wiki/Contributing).
-
-## License
-
-Copyright 2017 EBANX Payments
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use these files except in compliance with the License.
-You may obtain a copy of the License at
-
-   [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.

@@ -1,8 +1,8 @@
 {
-    "name": "ebanx/benjamin",
+    "name": "ebanx/benjamin-local",
     "description": "Business rule provider lib for plugin implementations",
     "type": "library",
-    "license": "Apache-2.0",
+    "license": "proprietary",
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.4",
