@@ -33,7 +33,7 @@ trait Printable
             $isSandbox = $this->config->isSandbox;
         }
 
-        return $isSandbox ? 'sandbox' : 'print';
+        return $isSandbox ? 'staging' : 'print';
     }
 
     /**
