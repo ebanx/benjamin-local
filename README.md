@@ -1,9 +1,9 @@
 # Benjamin
-[![Build Status](https://img.shields.io/travis/ebanx/benjamin/master.svg?style=for-the-badge)](https://travis-ci.com/ebanx/benjamin)
-[![codecov](https://img.shields.io/codecov/c/github/ebanx/benjamin/master.svg?style=for-the-badge)](https://codecov.io/gh/ebanx/benjamin)
-[![Latest Stable Version](https://img.shields.io/packagist/v/ebanx/benjamin.svg?style=for-the-badge)](https://packagist.org/packages/ebanx/benjamin)
-[![Total Downloads](https://img.shields.io/packagist/dt/ebanx/benjamin.svg?style=for-the-badge)](https://packagist.org/packages/ebanx/benjamin)
-[![License](https://img.shields.io/packagist/l/ebanx/benjamin.svg?style=for-the-badge)](https://packagist.org/packages/ebanx/benjamin)
+[![Build Status](https://img.shields.io/travis/ebanx/benjamin-local/master.svg?style=for-the-badge)](https://travis-ci.com/ebanx/benjamin-local)
+[![codecov](https://img.shields.io/codecov/c/github/ebanx/benjamin-local/master.svg?style=for-the-badge)](https://codecov.io/gh/ebanx/benjamin-local)
+[![Latest Stable Version](https://img.shields.io/packagist/v/ebanx/benjamin-local.svg?style=for-the-badge)](https://packagist.org/packages/ebanx/benjamin-local)
+[![Total Downloads](https://img.shields.io/packagist/dt/ebanx/benjamin-local.svg?style=for-the-badge)](https://packagist.org/packages/ebanx/benjamin-local)
+[![License](https://img.shields.io/packagist/l/ebanx/benjamin-local.svg?style=for-the-badge)](https://packagist.org/packages/ebanx/benjamin-local)
 
 
 This is the repository for business rules as of implemented by merchant sites for use in e-commerce platform plugins.
@@ -27,8 +27,8 @@ $payment = new Payment([
 $result = EBANX($config)->create($payment);
 ```
 
-If you want more information you can check the [Wiki](https://github.com/ebanx/benjamin/wiki/Using-Benjamin).
+If you want more information you can check the [Wiki](https://github.com/ebanx/benjamin-local/wiki/Using-Benjamin).
 
 ## Contributing
 
-Check the [Wiki](https://github.com/ebanx/benjamin/wiki/Contributing).
+Check the [Wiki](https://github.com/ebanx/benjamin-local/wiki/Contributing).

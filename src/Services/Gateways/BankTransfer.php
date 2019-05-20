@@ -32,7 +32,7 @@ class BankTransfer extends DirectGateway
      */
     protected function getUrlFormat()
     {
-        return 'https://%s.ebanxpay.com/print/voucher/execute?hash=%s';
+        return 'https://%s.ebanx.com.br/print/voucher/execute?hash=%s';
     }
 
     /**

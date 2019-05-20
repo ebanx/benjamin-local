@@ -71,7 +71,7 @@ class BankTransferTest extends GatewayTestCase
     {
         $gateway = $this->getTestGateway();
         $this->assertEquals(
-            'https://sandbox.ebanxpay.com/print/voucher/execute?hash=591b803da5549b6a1bac524b31e6eef55c2e67af8e40e1e4',
+            'https://staging.ebanx.com.br/print/voucher/execute?hash=591b803da5549b6a1bac524b31e6eef55c2e67af8e40e1e4',
             $gateway->getUrl('591b803da5549b6a1bac524b31e6eef55c2e67af8e40e1e4')
         );
     }
@@ -80,7 +80,7 @@ class BankTransferTest extends GatewayTestCase
     {
         $gateway = $this->getTestGateway();
         $this->assertEquals(
-            'https://print.ebanxpay.com/print/voucher/execute?hash=591b803da5549b6a1bac524b31e6eef55c2e67af8e40e1e4',
+            'https://print.ebanx.com.br/print/voucher/execute?hash=591b803da5549b6a1bac524b31e6eef55c2e67af8e40e1e4',
             $gateway->getUrl('591b803da5549b6a1bac524b31e6eef55c2e67af8e40e1e4', false)
         );
     }

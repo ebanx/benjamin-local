@@ -60,7 +60,7 @@ class PagofacilTest extends GatewayTestCase
     {
         $gateway = $this->getTestGateway();
         $this->assertEquals(
-            'https://sandbox.ebanxpay.com/print/voucher/?hash=59dd4830ba89b516ba301a73a18c0f5cc09d58660a888575',
+            'https://staging.ebanx.com.br/print/voucher/?hash=59dd4830ba89b516ba301a73a18c0f5cc09d58660a888575',
             $gateway->getUrl('59dd4830ba89b516ba301a73a18c0f5cc09d58660a888575')
         );
     }
@@ -69,7 +69,7 @@ class PagofacilTest extends GatewayTestCase
     {
         $gateway = $this->getTestGateway();
         $this->assertEquals(
-            'https://print.ebanxpay.com/print/voucher/?hash=59dd4830ba89b516ba301a73a18c0f5cc09d58660a888575',
+            'https://print.ebanx.com.br/print/voucher/?hash=59dd4830ba89b516ba301a73a18c0f5cc09d58660a888575',
             $gateway->getUrl('59dd4830ba89b516ba301a73a18c0f5cc09d58660a888575', false)
         );
     }

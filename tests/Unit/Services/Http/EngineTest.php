@@ -11,7 +11,7 @@ class EngineTest extends TestCase
      */
     public function testGetRequestWithoutData()
     {
-        $url = 'http://portquiz.net';
+        $url = 'http://portquiz.net/';
         $engine = new Engine();
 
         $response = $engine->get($url);
@@ -25,7 +25,7 @@ class EngineTest extends TestCase
      */
     public function testGetRequestWithData()
     {
-        $url = 'http://portquiz.net';
+        $url = 'http://portquiz.net/';
         $data = ['hash' => 'teste'];
         $engine = new Engine();
 
@@ -40,7 +40,7 @@ class EngineTest extends TestCase
      */
     public function testPostRequestWithData()
     {
-        $url = 'http://portquiz.net';
+        $url = 'http://portquiz.net/';
         $data = ['hash' => 'teste', 'key' => 'working'];
         $engine = new Engine();
 

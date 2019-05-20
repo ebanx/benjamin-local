@@ -6,8 +6,8 @@
          beStrictAboutTodoAnnotatedTests="true"
          colors="true"
          verbose="true">
-    <testsuite>
-        <directory suffix="Test.php">tests</directory>
+    <testsuite name="main">
+        <directory>tests</directory>
     </testsuite>
 
     <filter>
@@ -18,8 +18,6 @@
 
     <logging>
         <log type="coverage-clover" target="clover.xml"/>
-        <log type="coverage-html" target="./report" charset="UTF-8"
-             yui="true" highlight="true"
-             lowUpperBound="50" highLowerBound="80" />
+        <log type="coverage-html" target="./report" lowUpperBound="50" highLowerBound="80" />
     </logging>
 </phpunit>
