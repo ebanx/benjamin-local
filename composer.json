@@ -1,6 +1,6 @@
 {
-    "name": "ebanxpay/benjamin-local",
-    "description": "EBANX Pay's API library",
+    "name": "ebanx/benjamin-local",
+    "description": "EBANX Pay's API library for local payments",
     "type": "library",
     "license": "proprietary",
     "minimum-stability": "dev",
