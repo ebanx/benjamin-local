@@ -3,7 +3,6 @@
     "description": "EBANX Pay's API library for local payments",
     "type": "library",
     "license": "proprietary",
-    "minimum-stability": "dev",
     "require": {
         "php": ">=5.4",
         "ext-curl": "*"
