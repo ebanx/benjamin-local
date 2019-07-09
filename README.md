@@ -1,6 +1,5 @@
 # Benjamin
 [![Build Status](https://img.shields.io/travis/ebanx/benjamin-local/master.svg?style=for-the-badge)](https://travis-ci.com/ebanx/benjamin-local)
-[![codecov](https://img.shields.io/codecov/c/github/ebanx/benjamin-local/master.svg?style=for-the-badge)](https://codecov.io/gh/ebanx/benjamin-local)
 [![Latest Stable Version](https://img.shields.io/packagist/v/ebanx/benjamin-local.svg?style=for-the-badge)](https://packagist.org/packages/ebanx/benjamin-local)
 [![Total Downloads](https://img.shields.io/packagist/dt/ebanx/benjamin-local.svg?style=for-the-badge)](https://packagist.org/packages/ebanx/benjamin-local)
 [![License](https://img.shields.io/packagist/l/ebanx/benjamin-local.svg?style=for-the-badge)](https://packagist.org/packages/ebanx/benjamin-local)
@@ -15,6 +14,12 @@ It is very simple to use Benjamin. You will only need an instance of `Ebanx\Benj
 
 ```php
 <?php
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Ebanx\Benjamin\Models\Configs\Config;
+use Ebanx\Benjamin\Models\Payment;
+
 $config = new Config([
     'integrationKey' => 'YOUR_INTEGRATION_KEY',
     'sandboxIntegrationKey' => 'YOUR_SANDBOX_INTEGRATION_KEY'
@@ -27,8 +32,4 @@ $payment = new Payment([
 $result = EBANX($config)->create($payment);
 ```
 
-If you want more information you can check the [Wiki](https://github.com/ebanx/benjamin-local/wiki/Using-Benjamin).
-
-## Contributing
-
-Check the [Wiki](https://github.com/ebanx/benjamin-local/wiki/Contributing).
+If you want more information you can check the [Wiki](https://github.com/ebanx/benjamin-local/wiki/Getting-Started).
