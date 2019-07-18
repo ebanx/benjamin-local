@@ -35,7 +35,7 @@ class Config extends BaseModel implements AddableConfig
      *
      * @var string
      */
-    public $baseCurrency = Currency::USD;
+    public $baseCurrency = Currency::BRL;
 
     /**
      * The URL to send notifications to.
