@@ -8,18 +8,23 @@ use Ebanx\Benjamin\Services\Http\HttpService;
 class Refund extends HttpService
 {
     /**
-     * @param string    $hash           The payment hash.
-     * @param float     $amount         The amount to be refunded; expressed in the original payment currency.
-     * @param string    $description    Description of the refund reason.
+     * @param string    $hash                The payment hash.
+     * @param float     $amount              The amount to be refunded; expressed in the original payment currency.
+     * @param string    $description         Description of the refund reason.
+     * @param string    $merchantRefundCode  An optional merchant refund code.
      * @return array
      */
-    public function requestByHash($hash, $amount, $description)
+    public function requestByHash($hash, $amount, $description, $merchantRefundCode = '')
     {
         $data = [
             'hash' => $hash,
             'amount' => $amount,
             'description' => $description,
         ];
+
+        if (!empty($merchantRefundCode)) {
+            $data['merchantRefundCode'] = $merchantRefundCode;
+        }
 
         return $this->request($data);
     }
@@ -28,15 +33,20 @@ class Refund extends HttpService
      * @param string    $merchantPaymentCode    The merchant payment code
      * @param float     $amount                 The amount to be refunded; expressed in the original payment currency.
      * @param string    $description            Description of the refund reason.
+     * @param string    $merchantRefundCode  An optional merchant refund code.
      * @return array
      */
-    public function requestByMerchantPaymentCode($merchantPaymentCode, $amount, $description)
+    public function requestByMerchantPaymentCode($merchantPaymentCode, $amount, $description, $merchantRefundCode = '')
     {
         $data = [
             'merchantPaymentCode' => $merchantPaymentCode,
             'amount' => $amount,
             'description' => $description,
         ];
+
+        if (!empty($merchantRefundCode)) {
+            $data['merchantRefundCode'] = $merchantRefundCode;
+        }
 
         return $this->request($data);
     }
