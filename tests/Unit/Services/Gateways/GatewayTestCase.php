@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Unit\Services\Gateways;
 
+use Ebanx\Benjamin\Models\Currency;
 use Ebanx\Benjamin\Services\Gateways\BaseGateway;
 use Tests\TestCase;
 use Tests\Helpers\Environment;
@@ -19,6 +20,7 @@ class GatewayTestCase extends TestCase
 
         $this->config = new Config([
             'sandboxIntegrationKey' => $env->read('SANDBOX_INTEGRATION_KEY', 'default_integration_key'),
+            'baseCurrency' => Currency::USD,
         ]);
     }
 

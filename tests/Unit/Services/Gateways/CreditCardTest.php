@@ -258,7 +258,7 @@ class CreditCardTest extends GatewayTestCase
     public function testMinInstalmentsArgentina()
     {
         $country = Country::ARGENTINA;
-        $gateway = $this->setupGateway(1, new Config());
+        $gateway = $this->setupGateway(1, new Config(['baseCurrency' => Currency::USD]));
         $value = CreditCardConfig::acquirerMinInstalmentValueForCurrency(Currency::localForCountry($country));
 
         $paymentTerms = $gateway->getPaymentTermsForCountryAndValue($country, $value);
@@ -271,7 +271,7 @@ class CreditCardTest extends GatewayTestCase
     public function testMinInstalmentsColombia()
     {
         $country = Country::COLOMBIA;
-        $gateway = $this->setupGateway(1, new Config());
+        $gateway = $this->setupGateway(1, new Config(['baseCurrency' => Currency::USD]));
         $value = CreditCardConfig::acquirerMinInstalmentValueForCurrency(Currency::localForCountry($country));
 
         $paymentTerms = $gateway->getPaymentTermsForCountryAndValue($country, $value);
