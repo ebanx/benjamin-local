@@ -58,6 +58,7 @@ class PaymentAdapter extends BaseAdapter
             'phone_number' => $this->payment->person->phoneNumber,
             'note' => $this->payment->note,
             'items' => $this->transformItems(),
+            'split' => $this->transformSplitRules(),
             'device_id' => $this->payment->deviceId,
             'payment_type_code' => $this->payment->type,
             'user_value_5' => 'Benjamin',
@@ -94,6 +95,31 @@ class PaymentAdapter extends BaseAdapter
         }
 
         return (object) $itemArray;
+    }
+
+    protected function transformSplitRules()
+    {
+        $splitRules = [];
+
+        foreach ($this->payment->split as $splitRule) {
+            $properties = [
+                'recipient_code' => $splitRule->recipientCode,
+                'liable' => $splitRule->liable,
+                'charge_fee' => $splitRule->chargeFee,
+            ];
+
+            if (is_numeric($splitRule->percentage)) {
+                $properties['percentage'] = $splitRule->percentage;
+            }
+
+            if (is_numeric($splitRule->amount)) {
+                $properties['amount'] = $splitRule->amount;
+            }
+
+            $splitRules[] = (object) $properties;
+        }
+
+        return $splitRules;
     }
 
     private function transformMetadata()
