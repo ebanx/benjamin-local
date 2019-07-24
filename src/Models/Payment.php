@@ -62,6 +62,13 @@ class Payment extends BaseModel
     public $items = [];
 
     /**
+     * An array of SplitRule obejects.
+     *
+     * @var SplitRule[]
+     */
+    public $split = [];
+
+    /**
      * Object containing the company’s responsible person information.
      *
      * @var Person
