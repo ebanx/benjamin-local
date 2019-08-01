@@ -6,9 +6,9 @@ class SplitRule extends BaseModel
     /**
      * Unique Merchant Recipient Code (max 128 characters).
      *
-     * @var string
+     * @var string|null
      */
-    public $recipientCode;
+    public $recipientCode = null;
 
     /**
      * A percentage of amount total value part. E.g.,: 25
@@ -27,14 +27,45 @@ class SplitRule extends BaseModel
     /**
      * If is responsible for chargebacks fees.
      *
-     * @var string
+     * @var bool|null
      */
-    public $liable = false;
+    public $liable = null;
 
     /**
      * If you will be charged for a fee.
      *
-     * @var string
+     * @var bool|null
      */
-    public $chargeFee = false;
+    public $chargeFee = null;
+
+    public static function transformSplitRules(array $split)
+    {
+        $splitRules = [];
+
+        foreach ($split as $splitRule) {
+            $properties = [
+                'recipient_code' => $splitRule->recipientCode,
+            ];
+
+            if (property_exists($splitRule, 'percentage')) {
+                $properties['percentage'] = $splitRule->percentage;
+            }
+
+            if (property_exists($splitRule, 'amount')) {
+                $properties['amount'] = $splitRule->amount;
+            }
+
+            if (property_exists($splitRule, 'liable')) {
+                $properties['liable'] = $splitRule->liable;
+            }
+
+            if (property_exists($splitRule, 'chargeFee')) {
+                $properties['charge_fee'] = $splitRule->chargeFee;
+            }
+
+            $splitRules[] = (object) $properties;
+        }
+
+        return $splitRules;
+    }
 }

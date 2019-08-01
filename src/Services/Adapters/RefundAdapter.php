@@ -2,6 +2,7 @@
 namespace Ebanx\Benjamin\Services\Adapters;
 
 use Ebanx\Benjamin\Models\Configs\Config;
+use Ebanx\Benjamin\Models\SplitRule;
 
 class RefundAdapter extends BaseAdapter
 {
@@ -13,12 +14,12 @@ class RefundAdapter extends BaseAdapter
     /**
      * RefundAdapter constructor.
      *
-     * @param array $hash
+     * @param array $data
      * @param Config $config
      */
-    public function __construct($hash, Config $config)
+    public function __construct($data, Config $config)
     {
-        $this->data = $hash;
+        $this->data = $data;
         parent::__construct($config);
     }
 
@@ -36,6 +37,14 @@ class RefundAdapter extends BaseAdapter
 
         if (isset($this->data['merchantPaymentCode'])) {
             $transformed['merchant_payment_code'] = $this->data['merchantPaymentCode'];
+        }
+
+        if (isset($this->data['merchantRefundCode'])) {
+            $transformed['merchant_refund_code'] = $this->data['merchantRefundCode'];
+        }
+
+        if (!empty($this->data['split']) && is_array($this->data['split'])) {
+            $transformed['split'] = SplitRule::transformSplitRules($this->data['split']);
         }
 
         return $transformed;

@@ -79,12 +79,21 @@ class Client
     }
 
     /**
-     * @param  object|array $data Payment data payload
+     * @param  object|array $data Refund data payload
      * @return array
      */
     public function refund($data)
     {
         return $this->query($data, 'ws/refund');
+    }
+
+    /**
+     * @param  object|array $data Refund data payload
+     * @return array
+     */
+    public function refundWithSplit($data)
+    {
+        return $this->post($data, 'ws/refund');
     }
 
     /**

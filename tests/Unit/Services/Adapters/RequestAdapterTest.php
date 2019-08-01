@@ -4,10 +4,11 @@ namespace Tests\Unit\Services\Adapters;
 use Ebanx\Benjamin\Models\Address;
 use Ebanx\Benjamin\Models\Configs\Config;
 use Ebanx\Benjamin\Models\Country;
-use Ebanx\Benjamin\Models\Currency;
+use Ebanx\Benjamin\Models\Payment;
+use Ebanx\Benjamin\Models\Person;
+use Ebanx\Benjamin\Models\SplitRule;
 use Ebanx\Benjamin\Services\Adapters\RequestAdapter;
 use Tests\Helpers\Builders\BuilderFactory;
-use Tests\TestCase;
 use JsonSchema;
 
 class RequestAdapterTest extends PaymentAdapterTest
@@ -180,6 +181,96 @@ class RequestAdapterTest extends PaymentAdapterTest
         $validator->validate($result, $this->getSchema('requestSchema'));
 
         $this->assertTrue($validator->isValid(), $this->getJsonMessage($validator));
+    }
+
+    public function testTransformWithSplitRulesWithAmount()
+    {
+        $adapter = new FakeAdapter(new Payment([
+            'person' => new Person(),
+            'address' => new Address(),
+            'split' => [
+                new SplitRule([
+                    'recipientCode' => 'merchant_recipient_code_1',
+                    'amount' => '8',
+                    'chargeFee' => true,
+                    'liable' => true,
+                ]),
+                new SplitRule([
+                    'recipientCode' => 'merchant_recipient_code_2',
+                    'amount' => '7.5',
+                    'chargeFee' => true,
+                    'liable' => true,
+                ]),
+                new SplitRule([
+                    'recipientCode' => 'merchant_recipient_code_3',
+                    'amount' => 4.50,
+                    'chargeFee' => false,
+                    'liable' => false,
+                ]),
+            ]
+        ]), new Config());
+
+        $result = $adapter->transform();
+
+        $this->assertEquals('merchant_recipient_code_1', $result->payment->split[0]->recipient_code);
+        $this->assertEquals('8', $result->payment->split[0]->amount);
+        $this->assertTrue($result->payment->split[0]->charge_fee);
+        $this->assertTrue($result->payment->split[0]->liable);
+
+        $this->assertEquals('merchant_recipient_code_2', $result->payment->split[1]->recipient_code);
+        $this->assertEquals('7.5', $result->payment->split[1]->amount);
+        $this->assertTrue($result->payment->split[1]->charge_fee);
+        $this->assertTrue($result->payment->split[1]->liable);
+
+        $this->assertEquals('merchant_recipient_code_3', $result->payment->split[2]->recipient_code);
+        $this->assertEquals(4.50, $result->payment->split[2]->amount);
+        $this->assertFalse($result->payment->split[2]->charge_fee);
+        $this->assertFalse($result->payment->split[2]->liable);
+    }
+
+    public function testTransformWithSplitRulesWithPercentage()
+    {
+        $adapter = new FakeAdapter(new Payment([
+            'person' => new Person(),
+            'address' => new Address(),
+            'split' => [
+                new SplitRule([
+                    'recipientCode' => 'merchant_recipient_code_1',
+                    'percentage' => '30.00',
+                    'chargeFee' => true,
+                    'liable' => false,
+                ]),
+                new SplitRule([
+                    'recipientCode' => 'merchant_recipient_code_2',
+                    'percentage' => '30',
+                    'chargeFee' => false,
+                    'liable' => true,
+                ]),
+                new SplitRule([
+                    'recipientCode' => 'merchant_recipient_code_3',
+                    'percentage' => 40.00,
+                    'chargeFee' => false,
+                    'liable' => false,
+                ]),
+            ]
+        ]), new Config());
+
+        $result = $adapter->transform();
+
+        $this->assertEquals('merchant_recipient_code_1', $result->payment->split[0]->recipient_code);
+        $this->assertEquals('30.00', $result->payment->split[0]->percentage);
+        $this->assertTrue($result->payment->split[0]->charge_fee);
+        $this->assertFalse($result->payment->split[0]->liable);
+
+        $this->assertEquals('merchant_recipient_code_2', $result->payment->split[1]->recipient_code);
+        $this->assertEquals('30', $result->payment->split[1]->percentage);
+        $this->assertFalse($result->payment->split[1]->charge_fee);
+        $this->assertTrue($result->payment->split[1]->liable);
+
+        $this->assertEquals('merchant_recipient_code_3', $result->payment->split[2]->recipient_code);
+        $this->assertEquals(40.00, $result->payment->split[2]->percentage);
+        $this->assertFalse($result->payment->split[2]->charge_fee);
+        $this->assertFalse($result->payment->split[2]->liable);
     }
 }
 
