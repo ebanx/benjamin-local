@@ -4,6 +4,7 @@ namespace Ebanx\Benjamin\Services\Adapters;
 use Ebanx\Benjamin\Models\Configs\Config;
 use Ebanx\Benjamin\Models\Country;
 use Ebanx\Benjamin\Models\Payment;
+use Ebanx\Benjamin\Models\SplitRule;
 
 class PaymentAdapter extends BaseAdapter
 {
@@ -57,13 +58,21 @@ class PaymentAdapter extends BaseAdapter
             'country' => Country::toIso($this->payment->address->country),
             'phone_number' => $this->payment->person->phoneNumber,
             'note' => $this->payment->note,
-            'items' => $this->transformItems(),
             'device_id' => $this->payment->deviceId,
             'payment_type_code' => $this->payment->type,
             'user_value_5' => 'Benjamin',
         ];
+
         if ($birthdate = $this->payment->person->birthdate) {
             $payload['birth_date'] = $birthdate->format('d/m/Y');
+        }
+
+        if (!empty($this->payment->items) && is_array($this->payment->items)) {
+            $payload['items'] = $this->transformItems();
+        }
+
+        if (!empty($this->payment->split) && is_array($this->payment->split)) {
+            $payload['split'] = SplitRule::transformSplitRules($this->payment->split);
         }
 
         for ($i = 1; $i <= 4; $i++) {

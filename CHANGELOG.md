@@ -1,3 +1,17 @@
+## 1.19.0
+* Feature - Add support to create payment with split
+* Feature - Add support to request refund with split
+
+## 1.18.2
+* Fix - Change default base currency to BRL
+* Feature - Add merchant_refund_code parameter on request refund
+
+## 1.18.1
+* Fix - Fix minimum stability on composer.json
+
+## 1.18.0
+* Fix - Fix name description on composer.json
+
 ## 1.17.0
 * Feature - Change API URLs to use local API
 
