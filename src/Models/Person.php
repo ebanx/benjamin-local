@@ -70,10 +70,10 @@ class Person extends BaseModel
      */
     public $phoneNumber;
 
-	/**
-	 * Document country for foreign customers
-	 *
-	 * @var string
-	 */
-	public $documentCountry = 'br';
+    /**
+     * Document country for foreign customers
+     *
+     * @var string
+     */
+    public $documentCountry = 'br';
 }
