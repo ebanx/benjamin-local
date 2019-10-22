@@ -3,6 +3,7 @@ namespace Tests\Unit\Services\Adapters;
 
 use Ebanx\Benjamin\Models\Address;
 use Ebanx\Benjamin\Models\Configs\Config;
+use Ebanx\Benjamin\Models\Country;
 use Ebanx\Benjamin\Models\Currency;
 use Ebanx\Benjamin\Models\Payment;
 use Ebanx\Benjamin\Models\Person;
@@ -162,6 +163,30 @@ class PaymentAdapterTest extends TestCase
         $result = $adapter->transform();
 
         $this->assertObjectHasAttribute('document_type', $result->payment);
+    }
+
+    public function testTransformWithDocumentCountry()
+    {
+        $documentCountry = Country::ARGENTINA;
+        $adapter = new FakeAdapter(new Payment([
+            'person' => new Person(['documentCountry' => $documentCountry]),
+            'address' => new Address()
+        ]), new Config());
+        $result = $adapter->transform();
+
+        $this->assertEquals($documentCountry, $result->payment->document_country);
+    }
+
+
+    public function testTransformWithoutDocumentCountry()
+    {
+        $adapter = new FakeAdapter(new Payment([
+            'person' => new Person(),
+            'address' => new Address()
+        ]), new Config());
+        $result = $adapter->transform();
+
+        $this->assertObjectHasAttribute('document_country', $result->payment);
     }
 
     public function testTransformProfileId()

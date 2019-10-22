@@ -67,6 +67,7 @@ class RequestAdapter extends BaseAdapter
             'phone_number' => $person->phoneNumber,
             'person_type' => $person->type,
             'birth_date' => $person->birthdate,
+            'document_country' => $person->documentCountry,
         ];
     }
 
