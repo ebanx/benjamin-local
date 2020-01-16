@@ -48,7 +48,6 @@ class PaymentAdapter extends BaseAdapter
             'order_number' => $this->payment->orderNumber,
             'customer_ip' => $this->payment->person->ip,
             'document' => $this->payment->person->document,
-            'document_country' => $this->payment->person->documentCountry,
             'document_type' => $this->payment->person->documentType,
             'zipcode' => $this->payment->address->zipcode,
             'address' => $this->payment->address->address,
@@ -56,7 +55,7 @@ class PaymentAdapter extends BaseAdapter
             'street_complement' => $this->payment->address->streetComplement,
             'city' => $this->payment->address->city,
             'state' => $this->payment->address->state,
-            'country' => Country::toIso($this->payment->address->country),
+            'country' => Country::handleCountryToIso($this->payment->address->country),
             'phone_number' => $this->payment->person->phoneNumber,
             'note' => $this->payment->note,
             'device_id' => $this->payment->deviceId,
@@ -74,6 +73,10 @@ class PaymentAdapter extends BaseAdapter
 
         if (!empty($this->payment->split) && is_array($this->payment->split)) {
             $payload['split'] = SplitRule::transformSplitRules($this->payment->split);
+        }
+
+        if (!empty($this->payment->person->documentCountry)) {
+            $payload['document_country'] = Country::handleCountryToIso($this->payment->person->documentCountry);
         }
 
         for ($i = 1; $i <= 4; $i++) {

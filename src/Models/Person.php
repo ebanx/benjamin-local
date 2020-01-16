@@ -71,9 +71,9 @@ class Person extends BaseModel
     public $phoneNumber;
 
     /**
-     * Document country for foreign customers
+     * The customer document country. Default is Merchant country. For foreign customer is required.
      *
      * @var string
      */
-    public $documentCountry = 'br';
+    public $documentCountry;
 }
