@@ -174,7 +174,7 @@ class PaymentAdapterTest extends TestCase
         ]), new Config());
         $result = $adapter->transform();
 
-        $this->assertEquals($documentCountry, $result->payment->document_country);
+        $this->assertEquals('AR', $result->payment->document_country);
     }
 
 
@@ -186,7 +186,7 @@ class PaymentAdapterTest extends TestCase
         ]), new Config());
         $result = $adapter->transform();
 
-        $this->assertObjectHasAttribute('document_country', $result->payment);
+        $this->assertObjectNotHasAttribute('document_country', $result->payment);
     }
 
     public function testTransformProfileId()
@@ -211,30 +211,6 @@ class PaymentAdapterTest extends TestCase
         $result = $adapter->transform();
 
         $this->assertObjectHasAttribute('profile_id', $result->metadata->risk);
-    }
-
-    protected function getJsonMessage(JsonSchema\Validator $validator)
-    {
-        $message = '';
-        $message .= "JSON does not validate. Violations:\n";
-        foreach ($validator->getErrors() as $error) {
-            $message .= sprintf("[%s] %s\n", $error['property'], $error['message']);
-        }
-        return $message;
-    }
-
-    protected function getSchema($schemas)
-    {
-        if (!is_array($schemas)) {
-            $schemas = [$schemas];
-        }
-
-        $object = [];
-        foreach ($schemas as $schema) {
-            $object = array_merge_recursive($object, json_decode(file_get_contents(dirname(__DIR__) . '/Adapters/Schemas/' . $schema . '.json'), true));
-        }
-
-        return json_decode(json_encode($object));
     }
 }
 

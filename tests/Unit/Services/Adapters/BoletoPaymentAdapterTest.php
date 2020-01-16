@@ -8,8 +8,9 @@ use Ebanx\Benjamin\Services\Adapters\BoletoPaymentAdapter;
 use Tests\Helpers\Builders\BuilderFactory;
 use JsonSchema;
 use Ebanx\Benjamin\Models\Configs\Config;
+use Tests\TestCase;
 
-class BoletoPaymentAdapterTest extends PaymentAdapterTest
+class BoletoPaymentAdapterTest extends TestCase
 {
     public function testJsonSchema()
     {

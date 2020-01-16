@@ -10,8 +10,9 @@ use Ebanx\Benjamin\Models\SplitRule;
 use Ebanx\Benjamin\Services\Adapters\RequestAdapter;
 use Tests\Helpers\Builders\BuilderFactory;
 use JsonSchema;
+use Tests\TestCase;
 
-class RequestAdapterTest extends PaymentAdapterTest
+class RequestAdapterTest extends TestCase
 {
     public function testJsonSchema()
     {
