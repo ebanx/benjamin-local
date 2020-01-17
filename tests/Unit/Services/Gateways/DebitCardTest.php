@@ -30,6 +30,7 @@ class DebitCardTest extends GatewayTestCase
 
     public function testAvailabilityWithUSDEUR()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new DebitCard($this->config);
 
         $this->assertAvailableForCountries($gateway, [

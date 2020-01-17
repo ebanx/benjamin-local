@@ -29,6 +29,7 @@ class TefTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new Tef($this->config);
 
         $this->assertAvailableForCountries($gateway, [
@@ -38,6 +39,7 @@ class TefTest extends GatewayTestCase
 
     public function testAvailabilityWithLocalCurrency()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new Tef(new Config([
             'baseCurrency' => Currency::BRL,
         ]));

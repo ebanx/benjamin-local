@@ -29,6 +29,7 @@ class EbanxAccountTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new EbanxAccount($this->config);
 
         $this->assertAvailableForCountries($gateway, [

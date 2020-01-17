@@ -29,6 +29,7 @@ class PagofacilTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new Pagofacil($this->config);
 
         $this->assertAvailableForCountries($gateway, [
@@ -38,6 +39,7 @@ class PagofacilTest extends GatewayTestCase
 
     public function testAvailabilityWithLocalCurrency()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new Pagofacil(new Config([
             'baseCurrency' => Currency::ARS,
         ]));

@@ -29,6 +29,7 @@ class OxxoTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new Oxxo($this->config);
 
         $this->assertAvailableForCountries($gateway, [

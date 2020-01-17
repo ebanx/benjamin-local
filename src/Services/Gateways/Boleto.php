@@ -22,8 +22,6 @@ class Boleto extends DirectGateway
     {
         return [
             Currency::BRL,
-            Currency::USD,
-            Currency::EUR,
         ];
     }
 

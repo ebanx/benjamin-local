@@ -29,6 +29,7 @@ class ServipagTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new Servipag($this->config);
 
         $this->assertAvailableForCountries($gateway, [
@@ -38,6 +39,7 @@ class ServipagTest extends GatewayTestCase
 
     public function testAvailabilityWithLocalCurrency()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new Servipag(new Config([
             'baseCurrency' => Currency::CLP,
         ]));

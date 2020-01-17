@@ -42,15 +42,6 @@ class BoletoTest extends GatewayTestCase
         // TODO: assert output (to be defined)
     }
 
-    public function testAvailabilityWithUSD()
-    {
-        $gateway = new Boleto($this->config);
-
-        $this->assertAvailableForCountries($gateway, [
-            Country::BRAZIL,
-        ]);
-    }
-
     public function testAvailabilityWithLocalCurrency()
     {
         $gateway = new Boleto(new Config([

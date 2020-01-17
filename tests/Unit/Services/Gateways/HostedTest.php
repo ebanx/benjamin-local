@@ -28,6 +28,7 @@ class HostedTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new Hosted($this->config);
 
         $this->assertAvailableForCountries($gateway, Country::all());
@@ -35,6 +36,7 @@ class HostedTest extends GatewayTestCase
 
     public function testAvailabilityWithLocalCurrency()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new Hosted(new Config([
             'baseCurrency' => Currency::ARS,
         ]));

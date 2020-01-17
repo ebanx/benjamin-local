@@ -29,6 +29,7 @@ class SpeiTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new Spei($this->config);
 
         $this->assertAvailableForCountries($gateway, [

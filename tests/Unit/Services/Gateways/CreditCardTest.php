@@ -62,26 +62,6 @@ class CreditCardTest extends GatewayTestCase
         // TODO: assert output (to be defined)
     }
 
-    public function testAvailabilityWithUSDEUR()
-    {
-        $creditCardConfig = new CreditCardConfig();
-        $gateway = new CreditCard($this->config, $creditCardConfig);
-        $expectedCountries = [
-            Country::BRAZIL,
-            Country::MEXICO,
-            Country::COLOMBIA,
-            Country::ARGENTINA,
-        ];
-
-        $this->assertAvailableForCountries($gateway, $expectedCountries);
-
-        $gateway = new CreditCard(new Config([
-            'baseCurrency' => Currency::EUR,
-        ]), $creditCardConfig);
-
-        $this->assertAvailableForCountries($gateway, $expectedCountries);
-    }
-
     public function testAvailabilityWithLocalCurrency()
     {
         $creditCardConfig = new CreditCardConfig();
@@ -92,30 +72,6 @@ class CreditCardTest extends GatewayTestCase
 
         $this->assertAvailableForCountries($gateway, [
             Country::BRAZIL,
-        ]);
-
-        $gateway = new CreditCard(new Config([
-            'baseCurrency' => Currency::MXN,
-        ]), $creditCardConfig);
-
-        $this->assertAvailableForCountries($gateway, [
-            Country::MEXICO,
-        ]);
-
-        $gateway = new CreditCard(new Config([
-            'baseCurrency' => Currency::COP,
-        ]), $creditCardConfig);
-
-        $this->assertAvailableForCountries($gateway, [
-            Country::COLOMBIA,
-        ]);
-
-        $gateway = new CreditCard(new Config([
-            'baseCurrency' => Currency::ARS,
-        ]), $creditCardConfig);
-
-        $this->assertAvailableForCountries($gateway, [
-            Country::ARGENTINA,
         ]);
     }
 
@@ -137,8 +93,8 @@ class CreditCardTest extends GatewayTestCase
 
         $gateway = new CreditCard($this->config, new CreditCardConfig(), $client);
 
-        $defaultMinInstalment = CreditCardConfig::acquirerMinInstalmentValueForCurrency(Currency::MXN);
-        $country = Country::MEXICO;
+        $defaultMinInstalment = CreditCardConfig::acquirerMinInstalmentValueForCurrency(Currency::BRL);
+        $country = Country::BRAZIL;
         $minInstalment = $gateway->getMinInstalmentValueForCountry($country);
 
         $this->assertEquals($defaultMinInstalment, $minInstalment);
@@ -152,74 +108,6 @@ class CreditCardTest extends GatewayTestCase
         $this->assertNotEquals($defaultMinInstalment, $minInstalment);
     }
 
-    public function testPaymentTermsForCountryAndValue()
-    {
-        $usdToBrlRate = 3.4743;
-        $config = new Config([
-            'baseCurrency' => Currency::USD,
-        ]);
-
-        $creditCardConfig = new CreditCardConfig();
-        for ($i = 4; $i <= 6; $i++) {
-            $creditCardConfig->addInterest($i, 5);
-        }
-        for ($i = 7; $i <= 12; $i++) {
-            $creditCardConfig->addInterest($i, 10);
-        }
-
-        $gateway = $this->setupGateway($usdToBrlRate, $config, $creditCardConfig);
-        $country = Country::BRAZIL;
-
-        $value = 12.75;
-        // 12.75 (USD) * 3.4743 (Exchange Rate) / 5 (BRL minimum instalment value) * 10% (max interest rate) = 9 instalments
-
-        $paymentTerms = $gateway->getPaymentTermsForCountryAndValue($country, $value);
-
-        $this->assertTrue(is_array($paymentTerms), 'Failed to return array of payment terms');
-        $this->assertEquals(
-            9,
-            count($paymentTerms),
-            'Wrong number of payment terms'
-        );
-
-        $interest = 0;
-        for ($i = 0; $i < 3; $i++) {
-            $this->assertInterestInPaymentTerm($paymentTerms[$i], $value, $interest);
-        }
-
-        $interest = 0.05;
-        for ($i = 3; $i < 6; $i++) {
-            $this->assertInterestInPaymentTerm($paymentTerms[$i], $value, $interest);
-        }
-
-        $interest = 0.1;
-        for ($i = 6; $i < 9; $i++) {
-            $this->assertInterestInPaymentTerm($paymentTerms[$i], $value, $interest);
-        }
-    }
-
-    public function testPaymentTermsMerchantTaxFlagOn()
-    {
-        $usdToBrlRate = 3.4743;
-        $config = new Config([
-            'baseCurrency' => Currency::USD,
-            'taxesOnMerchant' => true,
-        ]);
-
-        $gateway = $this->setupGateway($usdToBrlRate, $config);
-        $country = Country::BRAZIL;
-
-        $value = rand(100, 9999) / 100;
-        $localAmountWithoutTax = $value * $usdToBrlRate;
-
-        $paymentTerms = $gateway->getPaymentTermsForCountryAndValue($country, $value);
-        $this->assertEquals(
-            $localAmountWithoutTax,
-            $paymentTerms[0]->localAmountWithTax,
-            'Local amount should have no taxes'
-        );
-    }
-
     public function testPaymentTermsBelowMinimumAmount()
     {
         $country = Country::BRAZIL;
@@ -230,54 +118,6 @@ class CreditCardTest extends GatewayTestCase
         $this->assertNotNull(
             $paymentTerms[0],
             'On spot payment should be allowed'
-        );
-    }
-
-    public function testPaymentTermsMerchantTaxFlagOff()
-    {
-        $usdToBrlRate = 3.4743;
-        $config = new Config([
-            'baseCurrency' => Currency::USD,
-            'taxesOnMerchant' => false,
-        ]);
-
-        $gateway = $this->setupGateway($usdToBrlRate, $config);
-        $country = Country::BRAZIL;
-
-        $value = 50.0;
-        $localAmountWithTax = $value * $usdToBrlRate * (1 + Config::IOF);
-
-        $paymentTerms = $gateway->getPaymentTermsForCountryAndValue($country, $value);
-        $this->assertEquals(
-            $localAmountWithTax,
-            $paymentTerms[0]->localAmountWithTax,
-            'Local amount should have taxes'
-        );
-    }
-
-    public function testMinInstalmentsArgentina()
-    {
-        $country = Country::ARGENTINA;
-        $gateway = $this->setupGateway(1, new Config(['baseCurrency' => Currency::USD]));
-        $value = CreditCardConfig::acquirerMinInstalmentValueForCurrency(Currency::localForCountry($country));
-
-        $paymentTerms = $gateway->getPaymentTermsForCountryAndValue($country, $value);
-        $this->assertEquals(
-            1,
-            count($paymentTerms)
-        );
-    }
-
-    public function testMinInstalmentsColombia()
-    {
-        $country = Country::COLOMBIA;
-        $gateway = $this->setupGateway(1, new Config(['baseCurrency' => Currency::USD]));
-        $value = CreditCardConfig::acquirerMinInstalmentValueForCurrency(Currency::localForCountry($country));
-
-        $paymentTerms = $gateway->getPaymentTermsForCountryAndValue($country, $value);
-        $this->assertEquals(
-            1,
-            count($paymentTerms)
         );
     }
 

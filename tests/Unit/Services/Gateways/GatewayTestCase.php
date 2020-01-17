@@ -20,7 +20,7 @@ class GatewayTestCase extends TestCase
 
         $this->config = new Config([
             'sandboxIntegrationKey' => $env->read('SANDBOX_INTEGRATION_KEY', 'default_integration_key'),
-            'baseCurrency' => Currency::USD,
+            'baseCurrency' => Currency::BRL,
         ]);
     }
 
