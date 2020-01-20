@@ -10,4 +10,14 @@ class CurrencyTest extends TestCase
     {
         $this->assertNull(Currency::localForCountry('invalidCountry'));
     }
+
+    public function testInvalidCurrencyToCountry()
+    {
+        $this->assertNull(Currency::currencyToCountry('CHF'));
+    }
+
+    public function testValidCurrencyToCountry()
+    {
+        $this->assertEquals('Brazil', Currency::currencyToCountry('BRL'));
+    }
 }

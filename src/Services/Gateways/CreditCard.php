@@ -56,7 +56,8 @@ class CreditCard extends DirectGateway
 
     protected function getPaymentData(Payment $payment)
     {
-        $this->availableForCountryOrThrow($payment->address->country);
+        $country = Currency::currencyToCountry($this->config->baseCurrency);
+        $this->availableForCountryOrThrow($country);
 
         $payment->type = $payment->card->type;
 

@@ -53,6 +53,25 @@ class Currency extends BaseModel
         return $relation[$country];
     }
 
+    public static function currencyToCountry($currency)
+    {
+        if (!in_array($currency, self::all())) {
+            return null;
+        }
+
+        $relation = [
+                self::ARS => Country::ARGENTINA,
+                self::BRL => Country::BRAZIL,
+                self::CLP => Country::CHILE,
+                self::COP => Country::COLOMBIA,
+                self::USD => Country::ECUADOR,
+                self::MXN => Country::MEXICO,
+                self::PEN => Country::PERU,
+            ];
+
+        return $relation[$currency];
+    }
+
     public static function isGlobal($currency)
     {
         return in_array($currency, self::globalCurrencies());
