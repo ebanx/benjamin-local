@@ -40,6 +40,7 @@ class BankTransferTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new BankTransfer($this->config);
 
         $this->assertAvailableForCountries($gateway, [

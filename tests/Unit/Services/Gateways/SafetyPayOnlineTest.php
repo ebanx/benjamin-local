@@ -29,6 +29,7 @@ class SafetyPayOnlineTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new SafetyPayOnline($this->config);
 
         $this->assertAvailableForCountries($gateway, [

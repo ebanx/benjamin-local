@@ -29,6 +29,7 @@ class MulticajaTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new Multicaja($this->config);
 
         $this->assertAvailableForCountries($gateway, [

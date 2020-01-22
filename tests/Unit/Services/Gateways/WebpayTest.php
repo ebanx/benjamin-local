@@ -29,6 +29,7 @@ class WebpayTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new Webpay($this->config);
 
         $this->assertAvailableForCountries($gateway, [

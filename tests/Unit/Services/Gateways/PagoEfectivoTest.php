@@ -29,6 +29,7 @@ class PagoEfectivoTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new PagoEfectivo($this->config);
 
         $this->assertAvailableForCountries($gateway, [
@@ -38,6 +39,7 @@ class PagoEfectivoTest extends GatewayTestCase
 
     public function testAvailabilityWithLocalCurrency()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new PagoEfectivo(new Config([
             'baseCurrency' => Currency::PEN,
         ]));

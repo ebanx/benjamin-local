@@ -29,6 +29,7 @@ class OtrosCuponesTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new OtrosCupones($this->config);
 
         $this->assertAvailableForCountries($gateway, [

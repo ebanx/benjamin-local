@@ -20,9 +20,6 @@ class CreditCard extends DirectGateway
     {
         return [
             Country::BRAZIL,
-            Country::MEXICO,
-            Country::COLOMBIA,
-            Country::ARGENTINA,
         ];
     }
 
@@ -30,11 +27,6 @@ class CreditCard extends DirectGateway
     {
         return [
             Currency::BRL,
-            Currency::MXN,
-            Currency::COP,
-            Currency::ARS,
-            Currency::USD,
-            Currency::EUR,
         ];
     }
 
@@ -64,7 +56,8 @@ class CreditCard extends DirectGateway
 
     protected function getPaymentData(Payment $payment)
     {
-        $this->availableForCountryOrThrow($payment->address->country);
+        $country = Currency::currencyToCountry($this->config->baseCurrency);
+        $this->availableForCountryOrThrow($country);
 
         $payment->type = $payment->card->type;
 

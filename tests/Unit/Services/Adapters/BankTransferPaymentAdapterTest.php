@@ -8,8 +8,9 @@ use Ebanx\Benjamin\Services\Adapters\BankTransferPaymentAdapter;
 use Tests\Helpers\Builders\BuilderFactory;
 use JsonSchema;
 use Ebanx\Benjamin\Models\Configs\Config;
+use Tests\TestCase;
 
-class BankTransferPaymentAdapterTest extends PaymentAdapterTest
+class BankTransferPaymentAdapterTest extends TestCase
 {
     public function testJsonSchema()
     {

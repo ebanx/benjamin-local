@@ -29,6 +29,7 @@ class EftTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new Eft($this->config);
 
         $this->assertAvailableForCountries($gateway, [

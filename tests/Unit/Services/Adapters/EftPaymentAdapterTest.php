@@ -5,8 +5,9 @@ use Ebanx\Benjamin\Services\Adapters\EftPaymentAdapter;
 use Tests\Helpers\Builders\BuilderFactory;
 use JsonSchema;
 use Ebanx\Benjamin\Models\Configs\Config;
+use Tests\TestCase;
 
-class EftPaymentAdapterTest extends PaymentAdapterTest
+class EftPaymentAdapterTest extends TestCase
 {
     public function testJsonSchema()
     {

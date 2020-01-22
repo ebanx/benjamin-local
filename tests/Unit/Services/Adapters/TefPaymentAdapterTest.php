@@ -5,8 +5,9 @@ use Ebanx\Benjamin\Services\Adapters\TefPaymentAdapter;
 use Tests\Helpers\Builders\BuilderFactory;
 use JsonSchema;
 use Ebanx\Benjamin\Models\Configs\Config;
+use Tests\TestCase;
 
-class TefPaymentAdapterTest extends PaymentAdapterTest
+class TefPaymentAdapterTest extends TestCase
 {
     public function testJsonSchema()
     {

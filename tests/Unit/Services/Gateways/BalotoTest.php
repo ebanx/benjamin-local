@@ -29,6 +29,7 @@ class BalotoTest extends GatewayTestCase
 
     public function testAvailabilityWithUSD()
     {
+        $this->config->baseCurrency = Currency::USD;
         $gateway = new Baloto($this->config);
 
         $this->assertAvailableForCountries($gateway, [
