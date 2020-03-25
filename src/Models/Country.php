@@ -61,8 +61,8 @@ class Country extends BaseModel
      */
     public static function handleCountryToIso($country)
     {
-        if (array_key_exists($country, self::isoCodes())) {
-            return $country;
+        if (array_key_exists(strtoupper($country), self::isoCodes())) {
+            return strtoupper($country);
         }
 
         return self::toIso($country);
