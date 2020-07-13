@@ -1,5 +1,7 @@
 <?php
+
 namespace Ebanx\Benjamin\Models;
+
 class Notification
 {
     private $operation;
