@@ -49,6 +49,24 @@ class RefundAdapterTest extends TestCase
         $this->assertEquals('optional_merchant_refund_code_for_test', $result['merchant_refund_code']);
     }
 
+    public function testTransformWithRequesterName()
+    {
+        $adapter = new RefundAdapter(
+            [
+                'amount' => '10.00',
+                'description' => 'Description for test',
+                'requester' => 'dashboard:user',
+            ],
+            new Config()
+        );
+
+        $result = $adapter->transform();
+
+        $this->assertEquals('10.00', $result['amount']);
+        $this->assertEquals('Description for test', $result['description']);
+        $this->assertEquals('dashboard:user', $result['requester']);
+    }
+
     public function testTransformWithSplitRulesWithAmount()
     {
         $adapter = new RefundAdapter(

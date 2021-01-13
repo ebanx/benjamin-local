@@ -43,6 +43,10 @@ class RefundAdapter extends BaseAdapter
             $transformed['merchant_refund_code'] = $this->data['merchantRefundCode'];
         }
 
+        if (isset($this->data['requester'])) {
+            $transformed['requester'] = $this->data['requester'];
+        }
+
         if (!empty($this->data['split']) && is_array($this->data['split'])) {
             $transformed['split'] = SplitRule::transformSplitRules($this->data['split']);
         }
