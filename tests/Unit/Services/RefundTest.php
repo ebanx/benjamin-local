@@ -33,6 +33,14 @@ class RefundTest extends TestCase
         $this->assertArrayHasKey('payment', $result);
     }
 
+    public function testIdentifiedRefundByHash()
+    {
+        $refund = new RefundForTests($this->config, $this->client);
+        $result = $refund->requestByHash('59386e0a5f258ffed3bee6fecc9150f916d1e19aa50ec68c', 10.23, 'description', 'optional_merchant_payment_code', 'dashboard:user');
+
+        $this->assertArrayHasKey('payment', $result);
+    }
+
     public function testRefundByMerchantPaymentCode()
     {
         $refund = new RefundForTests($this->config, $this->client);

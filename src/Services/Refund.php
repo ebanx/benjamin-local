@@ -14,13 +14,14 @@ class Refund extends HttpService
      * @param string    $merchantRefundCode  An optional merchant refund code.
      * @return array
      */
-    public function requestByHash($hash, $amount, $description, $merchantRefundCode = '')
+    public function requestByHash($hash, $amount, $description, $merchantRefundCode = '', $requester = '')
     {
         $data = self::handleRequestData([
             'hash' => $hash,
             'amount' => $amount,
             'description' => $description,
             'merchantRefundCode' => $merchantRefundCode,
+            'requester' => $requester,
         ]);
 
         return $this->request($data);
@@ -151,6 +152,10 @@ class Refund extends HttpService
 
         if (!empty($data['split'])) {
             $requestData['split'] = $data['split'];
+        }
+
+        if (!empty($data['requester'])) {
+            $requestData['requester'] = $data['requester'];
         }
 
         return $requestData;
