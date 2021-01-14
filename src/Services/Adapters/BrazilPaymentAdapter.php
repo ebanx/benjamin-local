@@ -1,6 +1,8 @@
 <?php
 namespace Ebanx\Benjamin\Services\Adapters;
 
+use Ebanx\Benjamin\Models\Person;
+
 abstract class BrazilPaymentAdapter extends PaymentAdapter
 {
     protected function transformPayment()
@@ -8,7 +10,15 @@ abstract class BrazilPaymentAdapter extends PaymentAdapter
         $transformed = parent::transformPayment();
         $transformed->person_type = $this->payment->person->type;
 
-        if ($this->payment->person->type === 'business') {
+        if ($this->payment->person->type !== Person::TYPE_BUSINESS) {
+            return $transformed;
+        }
+
+        if (!property_exists($this->payment, 'responsible')) {
+            return $transformed;
+        }
+
+        if (!empty($this->payment->responsible)) {
             $transformed->responsible = $this->getResponsible();
         }
 
