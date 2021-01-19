@@ -6,15 +6,16 @@ class CardPaymentAdapter extends BrazilPaymentAdapter
     protected function transformPayment()
     {
         $transformed = parent::transformPayment();
+
+        if (empty($this->payment->card)) {
+            return $transformed;
+        }
+
         $transformed->payment_type_code = $this->payment->card->type;
         $transformed->instalments = $this->payment->instalments;
         $transformed->creditcard = $this->transformCard();
         $transformed->device_id = $this->payment->deviceId;
         $transformed->manual_review = $this->payment->manualReview;
-
-        if (empty($this->payment->card)) {
-            return $transformed;
-        }
 
         if (property_exists($this->payment->card, 'createToken') && $this->payment->card->createToken) {
             $transformed->create_token = $this->payment->card->createToken;
@@ -26,10 +27,6 @@ class CardPaymentAdapter extends BrazilPaymentAdapter
 
     private function transformCard()
     {
-        if (empty($this->payment->card)) {
-            return (object) [];
-        }
-
         $cardObject =  (object) [
             'card_number' => $this->payment->card->number,
             'card_name' => $this->payment->card->name,

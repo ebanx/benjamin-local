@@ -143,11 +143,7 @@ class CardPaymentAdapterTest extends TestCase
 
         $this->assertObjectNotHasAttribute('token', $result->payment);
         $this->assertObjectNotHasAttribute('create_token', $result->payment);
-        $this->assertObjectNotHasAttribute('card_number', $result->payment->creditcard);
-        $this->assertObjectNotHasAttribute('card_name', $result->payment->creditcard);
-        $this->assertObjectNotHasAttribute('card_due_date', $result->payment->creditcard);
-        $this->assertObjectNotHasAttribute('card_cvv', $result->payment->creditcard);
-        $this->assertObjectNotHasAttribute('token', $result->payment->creditcard);
+        $this->assertObjectNotHasAttribute('creditcard', $result->payment);
     }
 
     private function generateConfig()
