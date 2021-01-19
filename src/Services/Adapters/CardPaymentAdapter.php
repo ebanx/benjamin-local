@@ -17,7 +17,7 @@ class CardPaymentAdapter extends BrazilPaymentAdapter
         $transformed->device_id = $this->payment->deviceId;
         $transformed->manual_review = $this->payment->manualReview;
 
-        if (property_exists($this->payment->card, 'createToken') && $this->payment->card->createToken) {
+        if (property_exists($this->payment->card, 'createToken') && !empty($this->payment->card->createToken)) {
             $transformed->create_token = $this->payment->card->createToken;
             $transformed->token = $this->payment->card->token;
         }
