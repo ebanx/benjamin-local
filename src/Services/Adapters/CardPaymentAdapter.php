@@ -35,7 +35,7 @@ class CardPaymentAdapter extends BrazilPaymentAdapter
             'auto_capture' => $this->payment->card->autoCapture,
         ];
 
-        if (property_exists($this->payment->card, 'createToken') && $this->payment->card->createToken) {
+        if (property_exists($this->payment->card, 'createToken') && !empty($this->payment->card->createToken)) {
             return $cardObject;
         }
 
