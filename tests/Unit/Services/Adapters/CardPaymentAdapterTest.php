@@ -113,7 +113,7 @@ class CardPaymentAdapterTest extends TestCase
         $this->assertObjectNotHasAttribute('card_number', $result->payment->creditcard);
         $this->assertObjectNotHasAttribute('card_name', $result->payment->creditcard);
         $this->assertObjectNotHasAttribute('card_due_date', $result->payment->creditcard);
-        $this->assertObjectNotHasAttribute('card_cvv', $result->payment->creditcard);
+        $this->assertObjectHasAttribute('card_cvv', $result->payment->creditcard);
         $this->assertObjectHasAttribute('token', $result->payment->creditcard);
     }
 
