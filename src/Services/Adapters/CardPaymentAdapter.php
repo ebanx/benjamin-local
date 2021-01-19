@@ -12,16 +12,10 @@ class CardPaymentAdapter extends BrazilPaymentAdapter
         $transformed->device_id = $this->payment->deviceId;
         $transformed->manual_review = $this->payment->manualReview;
 
-        if (!property_exists($this->payment->card, 'createToken')) {
-            return $transformed;
+        if (property_exists($this->payment->card, 'createToken') && $this->payment->card->createToken) {
+            $transformed->create_token = $this->payment->card->createToken;
+            $transformed->token = $this->payment->card->token;
         }
-
-        if (!$this->payment->card->createToken) {
-            return $transformed;
-        }
-
-        $transformed->create_token = $this->payment->card->createToken;
-        $transformed->token = $this->payment->card->token;
 
         return $transformed;
     }
@@ -36,8 +30,14 @@ class CardPaymentAdapter extends BrazilPaymentAdapter
             'auto_capture' => $this->payment->card->autoCapture,
         ];
 
-        if (!$this->payment->card->createToken) {
-            $cardObject->token = $this->payment->card->token;
+        if (property_exists($this->payment->card, 'createToken') && $this->payment->card->createToken) {
+            return $cardObject;
+        }
+
+        if (property_exists($this->payment->card, 'token') && !empty($this->payment->card->token)) {
+            return (object) [
+                'token' => $this->payment->card->token
+            ];
         }
 
         return $cardObject;
