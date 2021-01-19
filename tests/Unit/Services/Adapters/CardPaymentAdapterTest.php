@@ -133,7 +133,7 @@ class CardPaymentAdapterTest extends TestCase
         $this->assertObjectNotHasAttribute('token', $result->payment->creditcard);
     }
 
-    public function testCardPaymentTransformWithoutCardInfo_shouldNotCreditCardInfo()
+    public function testCardPaymentTransformWithoutCardInfo_shouldNotHaveCreditCardInfo()
     {
         $config = $this->generateConfig();
         $payment = $this->generateCreditCardPayment();
