@@ -11,9 +11,7 @@ class CardPaymentAdapterTest extends TestCase
 {
     public function testJsonSchema()
     {
-        $config = new Config([
-            'sandboxIntegrationKey' => 'testIntegrationKey'
-        ]);
+        $config = $this->generateConfig();
         $factory = new BuilderFactory('pt_BR');
         $payment = $factory->payment()->creditCard()->businessPerson()->build();
 
@@ -28,9 +26,7 @@ class CardPaymentAdapterTest extends TestCase
 
     public function testAdaptEmptyCard()
     {
-        $config = new Config([
-            'sandboxIntegrationKey' => 'testIntegrationKey'
-        ]);
+        $config = $this->generateConfig();
         $factory = new BuilderFactory('pt_BR');
         $payment = $factory->payment()->emptyCreditCard()->businessPerson()->build();
 
@@ -42,9 +38,7 @@ class CardPaymentAdapterTest extends TestCase
 
     public function testWithManualReview()
     {
-        $config = new Config([
-            'sandboxIntegrationKey' => 'testIntegrationKey'
-        ]);
+        $config = $this->generateConfig();
         $factory = new BuilderFactory('pt_BR');
         $payment = $factory->payment()->creditCard()->businessPerson()->manualReview(true)->build();
 
@@ -58,9 +52,7 @@ class CardPaymentAdapterTest extends TestCase
 
     public function testWithoutManualReview()
     {
-        $config = new Config([
-            'sandboxIntegrationKey' => 'testIntegrationKey'
-        ]);
+        $config = $this->generateConfig();
         $factory = new BuilderFactory('pt_BR');
         $payment = $factory->payment()->creditCard()->businessPerson()->build();
 
@@ -74,9 +66,7 @@ class CardPaymentAdapterTest extends TestCase
 
     public function testRequestAttributeNumber()
     {
-        $config = new Config([
-            'sandboxIntegrationKey' => 'testIntegrationKey'
-        ]);
+        $config = $this->generateConfig();
         $factory = new BuilderFactory('pt_BR');
         $payment = $factory->payment()->emptyCreditCard()->businessPerson()->build();
 
@@ -90,5 +80,85 @@ class CardPaymentAdapterTest extends TestCase
         $this->assertObjectHasAttribute('mode', $result);
         $this->assertObjectHasAttribute('metadata', $result);
         $this->assertObjectHasAttribute('payment', $result);
+    }
+
+    public function testCardPaymentTransformWithCreateToken_shouldHaveTokenAndCreditCardInPayment()
+    {
+        $config = $this->generateConfig();
+        $payment = $this->generateCreditCardPayment();
+        $payment->card->createToken = true;
+        $payment->card->token = md5($payment->card->number);
+        $adapter = new CardPaymentAdapter($payment, $config);
+        $result = $adapter->transform();
+
+        $this->assertObjectHasAttribute('token', $result->payment);
+        $this->assertObjectHasAttribute('create_token', $result->payment);
+        $this->assertObjectHasAttribute('card_number', $result->payment->creditcard);
+        $this->assertObjectHasAttribute('card_name', $result->payment->creditcard);
+        $this->assertObjectHasAttribute('card_due_date', $result->payment->creditcard);
+        $this->assertObjectHasAttribute('card_cvv', $result->payment->creditcard);
+        $this->assertObjectNotHasAttribute('token', $result->payment->creditcard);
+    }
+
+    public function testCardPaymentTransformWithTokenButWithoutCreateToken_shouldHaveTokenInCard()
+    {
+        $config = $this->generateConfig();
+        $payment = $this->generateCreditCardPayment();
+        $payment->card->token = md5($payment->card->number);
+        $adapter = new CardPaymentAdapter($payment, $config);
+        $result = $adapter->transform();
+
+        $this->assertObjectNotHasAttribute('token', $result->payment);
+        $this->assertObjectNotHasAttribute('create_token', $result->payment);
+        $this->assertObjectNotHasAttribute('card_number', $result->payment->creditcard);
+        $this->assertObjectNotHasAttribute('card_name', $result->payment->creditcard);
+        $this->assertObjectNotHasAttribute('card_due_date', $result->payment->creditcard);
+        $this->assertObjectHasAttribute('card_cvv', $result->payment->creditcard);
+        $this->assertObjectHasAttribute('token', $result->payment->creditcard);
+    }
+
+    public function testCardPaymentTransformWithoutTokenAndCreateToken_shouldHaveOnlyCardInfo()
+    {
+        $config = $this->generateConfig();
+        $payment = $this->generateCreditCardPayment();
+        $adapter = new CardPaymentAdapter($payment, $config);
+        $result = $adapter->transform();
+
+        $this->assertObjectNotHasAttribute('token', $result->payment);
+        $this->assertObjectNotHasAttribute('create_token', $result->payment);
+        $this->assertObjectHasAttribute('card_number', $result->payment->creditcard);
+        $this->assertObjectHasAttribute('card_name', $result->payment->creditcard);
+        $this->assertObjectHasAttribute('card_due_date', $result->payment->creditcard);
+        $this->assertObjectHasAttribute('card_cvv', $result->payment->creditcard);
+        $this->assertObjectNotHasAttribute('token', $result->payment->creditcard);
+    }
+
+    public function testCardPaymentTransformWithoutCardInfo_shouldNotHaveCreditCardInfo()
+    {
+        $config = $this->generateConfig();
+        $payment = $this->generateCreditCardPayment();
+        $payment->card = null;
+        $adapter = new CardPaymentAdapter($payment, $config);
+        $result = $adapter->transform();
+
+        $this->assertObjectNotHasAttribute('token', $result->payment);
+        $this->assertObjectNotHasAttribute('create_token', $result->payment);
+        $this->assertObjectNotHasAttribute('creditcard', $result->payment);
+    }
+
+    private function generateConfig()
+    {
+        return new Config([
+            'sandboxIntegrationKey' => 'testIntegrationKey'
+        ]);
+    }
+
+    private function generateCreditCardPayment()
+    {
+        $factory = new BuilderFactory('pt_BR');
+
+        return $factory->payment()
+            ->creditCard()
+            ->build();
     }
 }
