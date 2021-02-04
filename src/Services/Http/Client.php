@@ -105,6 +105,11 @@ class Client
         return $this->query($data, 'ws/cancel');
     }
 
+    public function createToken($data)
+    {
+        return $this->post($data, 'ws/token');
+    }
+
     /**
      * @param  object|array $data Payment data payload
      * @return array

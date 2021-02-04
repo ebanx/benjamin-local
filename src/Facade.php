@@ -1,11 +1,13 @@
 <?php
 namespace Ebanx\Benjamin;
 
+use Ebanx\Benjamin\Models\Card;
 use Ebanx\Benjamin\Models\Configs\Config;
 use Ebanx\Benjamin\Models\Configs\CreditCardConfig;
 use Ebanx\Benjamin\Models\Configs\AddableConfig;
 use Ebanx\Benjamin\Models\Payment;
 use Ebanx\Benjamin\Services\CancelPayment;
+use Ebanx\Benjamin\Services\CreateToken;
 use Ebanx\Benjamin\Services\Gateways;
 use Ebanx\Benjamin\Services\PaymentInfo;
 use Ebanx\Benjamin\Services\Exchange;
@@ -338,6 +340,11 @@ class Facade
     public function refund()
     {
         return new Refund($this->config, $this->getHttpClient());
+    }
+
+    public function createToken(Card $card)
+    {
+        return new CreateToken($this->config, $this->getHttpClient());
     }
 
     /**
