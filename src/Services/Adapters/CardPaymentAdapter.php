@@ -42,6 +42,7 @@ class CardPaymentAdapter extends BrazilPaymentAdapter
         if (property_exists($this->payment->card, 'token') && !empty($this->payment->card->token)) {
             return (object) [
                 'card_cvv' => $this->payment->card->cvv,
+                'auto_capture' => $this->payment->card->autoCapture,
                 'token' => $this->payment->card->token
             ];
         }
