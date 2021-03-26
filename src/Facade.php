@@ -342,7 +342,7 @@ class Facade
         return new Refund($this->config, $this->getHttpClient());
     }
 
-    public function createToken(Card $card)
+    public function createToken()
     {
         return new CreateToken($this->config, $this->getHttpClient());
     }
