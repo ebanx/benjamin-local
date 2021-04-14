@@ -29,6 +29,4 @@ class CardAdapter extends BaseAdapter
             ]
         ];
     }
-
-
 }
